@@ -14,6 +14,8 @@ class Tile:
 		# 0 = unclicked
 		# 1 = clicked
 		# 2 = flagged
+		# 3 = false flag
+		# 4 = revealed mine
 		self.state = 0
 		
 		self.mine = mined
@@ -37,6 +39,10 @@ class Tile:
 				
 			elif self.getState() == 2:
 				gfx = tile_flag
+			elif self.getState() == 3:
+				gfx = tile_wrong
+			elif self.getState() == 4:
+				gfx = tile_mine
 			else:
 				tkMessageBox.showinfo("Error!", "Error in tile" + str(self.getCoords()) + ": invalid state of " + str(self.getState()) + "!")	
 		
@@ -64,8 +70,14 @@ class Tile:
 	def isMine(self):
 		return self.mine
 		
+	def isUnclicked(self):
+		return self.getState() == 0
+		
 	def isClicked(self):
 		return self.getState() == 1
+		
+	def isFlagged(self):
+		return self.getState() == 2
 		
 	def getState(self):
 		return self.state
@@ -75,6 +87,13 @@ class Tile:
 		
 	def numNearby(self):
 		return self.nearby
+		
+	def revealMine(self):
+		if self.isMine():
+			if not self.isFlagged():
+				self.setState(4)
+		elif self.isFlagged():
+			self.setState(3)
 
 class Minesweeper:
 
@@ -202,13 +221,13 @@ class Minesweeper:
 		tile = self.tiles[key]
 		
 		# not clicked
-		if tile.getState() == 0:
+		if tile.isUnclicked():
 			tile.setFlagged()
 			tile.getButton().unbind('<Button-1>')
 			self.addFlag(tile)
 		
 		# flagged
-		elif tile.getState() == 2:
+		elif tile.isFlagged():
 			tile.setUnflagged()
 			tile.getButton().bind('<Button-1>', self.leftClickWrapper(key))
 			self.removeFlag(tile)
@@ -216,11 +235,13 @@ class Minesweeper:
 		self.updateFlagLabel()
 		
 	def loseGame(self):
+		self.revealAllMines()
 		tkMessageBox.showinfo("Game Over!", "You ripped really hard... sorry!")
 		global root
 		root.destroy()
 		
 	def winGame(self):
+		self.revealAllMines()
 		tkMessageBox.showinfo("Game Over!", "You win! Congratulations!")
 		global root
 		root.destroy()
@@ -288,6 +309,11 @@ class Minesweeper:
 		
 		if tile.isMine():
 			self.correct_flags -= 1
+			
+	def revealAllMines(self):
+		for key in self.tiles:
+			self.tiles[key].revealMine()
+
 def main():
 	sys.setrecursionlimit(15000)
 
