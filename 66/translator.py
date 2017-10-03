@@ -92,25 +92,3 @@ class Dictionary:
 	def random(self):
 		key_list = self.dict.keys()
 		return self.getEntry(key_list[random.randrange(0, len(key_list) - 1)])
-			
-
-def main():
-	dictionary = Dictionary("dict.txt")
-	print(dictionary.getValue("Hap"))
-	print(dictionary.getValue("Haq"))
-	print(dictionary.getEntry("Haq"))
-	print(dictionary.getValue("roflmao"))
-	print(dictionary.getEntry("roflmao"))
-	print("")
-	print(dictionary.find("Haq"))
-	print(dictionary.find("gun"))
-	print(dictionary.find("banana"))
-	print(dictionary.find("diminutive"))
-	print(dictionary.find("bloxxor"))
-	print("")
-	print(dictionary.random())
-	print(dictionary.random())
-	print(dictionary.random())
-
-if __name__ == "__main__":
-	main()
