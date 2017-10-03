@@ -20,7 +20,7 @@ def main():
 	print("")
 	
 	while True:
-		test_input = raw_input("Find in dictionary: ")
+		test_input = input("Find in dictionary: ")
 		print("You inputted: " + test_input)
 		print(dictionary.find(test_input))
 

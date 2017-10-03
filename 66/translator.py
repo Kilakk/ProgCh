@@ -71,7 +71,7 @@ class Dictionary:
 			to_find = re.compile(str(text))
 			test = ""
 			
-			for key, values in self.dict.iteritems():
+			for key, values in self.dict.items():
 			
 				# check key
 				test = to_find.search(key)
@@ -90,5 +90,5 @@ class Dictionary:
 			return results
 			
 	def random(self):
-		key_list = self.dict.keys()
+		key_list = list(self.dict.keys())
 		return self.getEntry(key_list[random.randrange(0, len(key_list) - 1)])
