@@ -6,3 +6,6 @@
 *.o
 *.so
 *.bat
+
+# Compiled python
+*.pyc
