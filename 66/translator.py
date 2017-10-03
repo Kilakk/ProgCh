@@ -1,4 +1,5 @@
 import re
+import random
 
 class Dictionary:
 	
@@ -6,7 +7,7 @@ class Dictionary:
 		
 		self.dict = {}
 		
-		self.regex_kling = re.compile('tlh:\t\{(.*?)\}')
+		self.regex_kling = re.compile('tlh:\t.*\{(.*?)\}')
 		self.regex_eng = re.compile('en:\t(.*?)\n')
 		
 		try:
@@ -16,8 +17,8 @@ class Dictionary:
 			print("IOError: invalid file!")
 			exit()
 		
-			
-		print("It worked!")
+		file.close()
+		print("Dictionary initialized!")
 		
 	def readData(self, file):
 		
@@ -38,15 +39,78 @@ class Dictionary:
 			# if we have both entries, add them to the dictionary
 			# then, kill both placeholders
 			if english and klingon:
-				self.dict[english] = klingon
+			
+				if klingon in self.dict:
+					self.dict[klingon].append(english)
+					
+				else:
+					self.dict[klingon] = [english]
+					
 				english = ""
 				klingon = ""
 				
-		print(self.dict)
+	def getValue(self, key):
+		return self.dict.get(key)
+		
+	def getEntry(self, key):
+		value = self.getValue(key)
+		if value:
+			return {key : value}
+		else:
+			return None
+			
+	def find(self, text):
+		results = {}
+	
+		# direct hit
+		if self.getValue(text):
+			results[text] = self.getValue(text)
+			
+		# soft search
+		else:
+			to_find = re.compile(str(text))
+			test = ""
+			
+			for key, values in self.dict.iteritems():
+			
+				# check key
+				test = to_find.search(key)
+				if test is not None:
+					results[key] = self.getValue(key)
+					
+				# check values
+				for v in values:
+					test = to_find.search(v)
+					if test is not None:
+						results[key] = self.getValue(key)
+						
+		if not results:
+			return None
+		else: 
+			return results
+			
+	def random(self):
+		key_list = self.dict.keys()
+		return self.getEntry(key_list[random.randrange(0, len(key_list) - 1)])
+			
 
 def main():
-	dict = Dictionary("dict.txt")
-
+	dictionary = Dictionary("dict.txt")
+	print(dictionary.getValue("Hap"))
+	print(dictionary.getValue("Haq"))
+	print(dictionary.getEntry("Haq"))
+	print(dictionary.getValue("roflmao"))
+	print(dictionary.getEntry("roflmao"))
+	print("")
+	print(dictionary.find("Haq"))
+	print(dictionary.find("gun"))
+	print(dictionary.find("banana"))
+	print(dictionary.find("diminutive"))
+	print(dictionary.find("bloxxor"))
+	print("")
+	print(dictionary.random())
+	print(dictionary.random())
+	print(dictionary.random())
 
 if __name__ == "__main__":
 	main()
