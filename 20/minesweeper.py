@@ -1,6 +1,6 @@
 # minesweeper I guess
-from Tkinter import *
-import tkMessageBox
+from tkinter import *
+from tkinter import messagebox
 import random
 from collections import deque
 
@@ -44,7 +44,7 @@ class Tile:
 			elif self.getState() == 4:
 				gfx = tile_mine
 			else:
-				tkMessageBox.showinfo("Error!", "Error in tile" + str(self.getCoords()) + ": invalid state of " + str(self.getState()) + "!")	
+				messagebox.showinfo("Error!", "Error in tile" + str(self.getCoords()) + ": invalid state of " + str(self.getState()) + "!")	
 		
 		self.buttonObject.config(image = gfx)
 		
@@ -236,13 +236,13 @@ class Minesweeper:
 		
 	def loseGame(self):
 		self.revealAllMines()
-		tkMessageBox.showinfo("Game Over!", "You ripped really hard... sorry!")
+		messagebox.showinfo("Game Over!", "You ripped really hard... sorry!")
 		global root
 		root.destroy()
 		
 	def winGame(self):
 		self.revealAllMines()
-		tkMessageBox.showinfo("Game Over!", "You win! Congratulations!")
+		messagebox.showinfo("Game Over!", "You win! Congratulations!")
 		global root
 		root.destroy()
 		
