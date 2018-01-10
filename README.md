@@ -6,4 +6,6 @@ Programming challenges.
 
 20\. Minesweeper
 
+44\. Morse code translator
+
 66\. Klingon translator
