@@ -82,8 +82,11 @@ def main():
 	trans = MorseTranslator()
 	chicken = (trans.translate_eng("CHICKEN 12345 lowercase bad$%chars!!"))
 	print(chicken)
-	trans.play_morse(chicken)
 	print(trans.translate_morse(chicken))
+	
+	print("Playing previously generated morse code...")
+	trans.play_morse(chicken)
+	print("Done!")
 	
 if __name__ == "__main__":
 	main()
