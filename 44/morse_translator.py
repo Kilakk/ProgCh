@@ -1,5 +1,9 @@
 # translate some morse code ok?
 import csv
+import os
+
+# from https://github.com/TaylorSMarks/playsound
+from playsound import playsound
 
 class MorseTranslator:
 	
@@ -60,12 +64,25 @@ class MorseTranslator:
 		
 		return english
 		
-		
+	def play_morse(self, morse):
+		# dot = wave.open("dot.wav", 'rb')
+		# dash = wave.open("dash.wav", 'rb')
+	
+		for i in range(0, len(morse)):
+			if morse[i] == MORSE_SEPARATOR:
+				continue
+				
+			if morse[i] == ".":
+				playsound("dot.wav")
+			else: 
+				if morse[i] == "-":
+					playsound("dash.wav")
 		
 def main():
 	trans = MorseTranslator()
 	chicken = (trans.translate_eng("CHICKEN 12345 lowercase bad$%chars!!"))
 	print(chicken)
+	trans.play_morse(chicken)
 	print(trans.translate_morse(chicken))
 	
 if __name__ == "__main__":
