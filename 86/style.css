@@ -1,0 +1,14 @@
+body {
+	margin-top: 2em;
+	text-align: center;
+}
+
+div.resource_count {
+	display: inline;
+}
+
+#announcements {
+	display: inline;
+	font-weight: bold;
+	color: red;
+}
